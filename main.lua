@@ -18,7 +18,10 @@ local input = io.read()
 
 for i = 1, 625 do
 	step(world, i)
-	screen(world, i)
+	
+	if (arg[1] ~= nil and arg[1] == "screen") then
+		screen(world, i)
+	end
 end
 
 local input = io.read()
