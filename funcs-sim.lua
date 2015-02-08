@@ -1,10 +1,10 @@
-function new_dorf(x, y)
-	local dorf = {}
-	dorf.x = x
-	dorf.y = y
-	dorf.population = 0
-	dorf.eggdelay = 3
-	return dorf
+function new_village(x, y)
+	local village = {}
+	village.x = x
+	village.y = y
+	village.population = 0
+	village.eggdelay = 3
+	return village
 end
 
 function add_kidswalk(destination, length)
@@ -26,11 +26,11 @@ function new_world()
 		table.insert(world.kidswalks, walk)
 	end
 
-	-- Erstelle Urdorf
-	local dorf
-	dorf = new_dorf(1, 0, 0)
-	dorf.population = 42
-	world[1] = dorf
+	-- Erstelle Urvillage
+	local village
+	village = new_village(1, 0, 0)
+	village.population = 42
+	world[1] = village
 
 	local id = 2
 	-- Erstelle alle anderen Dörfer
@@ -49,15 +49,15 @@ function new_world()
 			y = y + math.cos(math.rad((line+2)/6*360))*300*inline
 			print(x,y)
 
-			world[id] = new_dorf(x, y)
+			world[id] = new_village(x, y)
 
 			id = id +1
 		end
 	end
 
-	-- dorf 1 is settled and is currently hatching for dorf 2
-	-- next up for hatching will be dorf 3
-	world.nextdorf = 2
+	-- village 1 is settled and is currently hatching for village 2
+	-- next up for hatching will be village 3
+	world.nextvillage = 2
 	
 	print("world finished!")
 
@@ -69,46 +69,46 @@ end
 function step(world, step)
 	local step = step or 0
 	for i = 1, 7651 do
-		local dorf = world[i]
+		local village = world[i]
 
 		-- start hatching
-		if dorf.kidsdorf == nil and dorf.population == 42 then
-			-- check if there still is an empty dorf in this world
-			if world.nextdorf <= 7651 then
-				dorf.kidsdorf = world.nextdorf
-				world.nextdorf = world.nextdorf +1
+		if village.kidsvillage == nil and village.population == 42 then
+			-- check if there still is an empty village in this world
+			if world.nextvillage <= 7651 then
+				village.kidsvillage = world.nextvillage
+				world.nextvillage = world.nextvillage +1
 			end
 		end
 
 		-- reproduction
-		-- only possible with 2 KKs and a destination dorf
-		if dorf.kidsdorf ~= nil and dorf.population >= 2 then
+		-- only possible with 2 KKs and a destination village
+		if village.kidsvillage ~= nil and village.population >= 2 then
 			-- eggs need 3 months to hatch
-			-- this prevents eggs to hatch in the first 3 months of a dorf
-			if dorf.eggdelay > 0 then
-				dorf.eggdelay = dorf.eggdelay -1
+			-- this prevents eggs to hatch in the first 3 months of a village
+			if village.eggdelay > 0 then
+				village.eggdelay = village.eggdelay -1
 			else
-				dorf.population  = dorf.population +1
+				village.population  = village.population +1
 			end
 		end
 
-		-- kids leave the dorf
-		if dorf.population == 84 then
+		-- kids leave the village
+		if village.population == 84 then
 			-- kids complete
 			
-			-- kids need time to walk to their dorf
-			local x1, y1 = dorf.x, dorf.y
-			local x2, y2 = world[dorf.kidsdorf].x, world[dorf.kidsdorf].y
+			-- kids need time to walk to their village
+			local x1, y1 = village.x, village.y
+			local x2, y2 = world[village.kidsvillage].x, world[village.kidsvillage].y
 			local xd = x2 - x1
 			local yd = y2 - y1
 			local length = math.sqrt(xd*xd + yd*yd)
 
-			world:add_kidswalk(dorf.kidsdorf, length)
-			print(step, "Kids "..dorf.kidsdorf.." gestartet!")
+			world:add_kidswalk(village.kidsvillage, length)
+			print(step, "Kids "..village.kidsvillage.." gestartet!")
 
-			-- dorf is ready to hatch for another dorf
-			dorf.population = 42
-			dorf.kidsdorf = nil
+			-- village is ready to hatch for another village
+			village.population = 42
+			village.kidsvillage = nil
 		end
 	end
 
