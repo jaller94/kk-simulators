@@ -41,6 +41,8 @@ function m.export_value(output, value, indentlevel)
 		end
 		m.indent(output, indentlevel)
 		output:write("}")
+	elseif (typ == "userdata" or typ == "function" or typ == "thread") then
+		output:write("\"" .. typ .. ":" .. tostring(value))
 	end
 end
 
