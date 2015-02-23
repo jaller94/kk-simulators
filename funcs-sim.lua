@@ -28,7 +28,7 @@ function new_world()
 
 	-- Erstelle Urvillage
 	local village
-	village = new_village(1, 0, 0)
+	village = new_village(0, 0)
 	village.population = 42
 	world[1] = village
 
