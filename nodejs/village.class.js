@@ -8,6 +8,7 @@ c.countkids = function () {
 	// 42 is the size of a grown village
 	// additional KKs don't belong here and are youngsters
 	kids = (this.population || 0) - 42;
+	kids = (kids > 0 ? kids : 0);
 
 	return kids;
 }
