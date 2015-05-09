@@ -11,6 +11,7 @@ function c(x, y) {
 	this.y = y;
 	this.population = 0;
 	this.eggdelay = 3;
+	this.kidswalk = undefined;	
 	this.anchestors = undefined;
 	this.kidsvillage = undefined;
 	this.children = [];

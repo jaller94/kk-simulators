@@ -9,6 +9,7 @@ var Village = require("./village.class");
 function c() {
 	// set object variables
 	this.tick = 0;
+	this.kkspeed = 1000;
 	this.villages = [];
 	this.kidswalks = [];
 	this.nextvillage = 1;
@@ -109,7 +110,7 @@ c.prototype.act = function() {
 	// kids walk
 	this.kidswalks.forEach(function(walk, index, walks) {
 		//console.log("walk ongoing:\t"+walk.destination.id+"\t"+walk.leng)
-		walk.leng = walk.leng -1000;
+		walk.leng = walk.leng -this.kkspeed;
 		if (walk.leng <= 0) { //KKs arrived
 			walk.destination.population = 42;
 			console.log(this.tick +"\tDorf " + walk.destination.id + " besiedelt!");
@@ -123,6 +124,13 @@ c.prototype.addkidswalk = function(destination, length) {
 	walk.destination = destination;
 	walk.leng = length;
 	this.kidswalks.push(walk);
+
+	//add statistics
+	destination.kidswalk = kidswalk = {};
+	kidswalk.starttick = this.tick;
+	kidswalk.duration = length / this.kkspeed;
+	kidswalk.endtick = this.tick + Math.floor(kidswalk.duration);
+	kidswalk.totaldistance = length;
 }
 
 module.exports = c;
