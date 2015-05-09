@@ -1,8 +1,22 @@
 // ES5 code
-// initialize local class table
-var c = {};
 
-c.countkids = function () {
+// constructor
+function c(x, y) {
+	x = x || 0;
+	y = y || 0;
+
+	// set object variables
+	this.id = undefined;
+	this.x = x;
+	this.y = y;
+	this.population = 0;
+	this.eggdelay = 3;
+	this.anchestors = undefined;
+	this.kidsvillage = undefined;
+	this.children = [];
+}
+
+c.prototype.countkids = function () {
 	var kids;
 
 	// 42 is the size of a grown village
@@ -13,24 +27,4 @@ c.countkids = function () {
 	return kids;
 }
 
-function construct(id, x, y) {
-	x = x || 0;
-	y = y || 0;
-
-	console.log(id,x,y);
-
-	// set object variables
-	this.id = id;
-	this.x = x;
-	this.y = y;
-	this.population = 0;
-	this.eggdelay = 3;
-
-	this.children = [];
-	this.anchestors = undefined;
-
-	// attach prototype to object
-	this.countkids = c.countkids;
-}
-
-module.exports = construct;
+module.exports = c;
