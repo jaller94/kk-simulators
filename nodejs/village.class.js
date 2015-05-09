@@ -13,15 +13,21 @@ c.countkids = function () {
 	return kids;
 }
 
-function construct(x, y) {
+function construct(id, x, y) {
 	x = x || 0;
 	y = y || 0;
 
+	console.log(id,x,y);
+
 	// set object variables
+	this.id = id;
 	this.x = x;
 	this.y = y;
 	this.population = 0;
 	this.eggdelay = 3;
+
+	this.children = [];
+	this.anchestors = undefined;
 
 	// attach prototype to object
 	this.countkids = c.countkids;
