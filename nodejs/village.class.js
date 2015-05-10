@@ -12,7 +12,7 @@ function c(x, y) {
 	this.population = 0;
 	this.eggdelay = 3;
 	this.kidswalk = undefined;	
-	this.anchestors = undefined;
+	this.ancestors = undefined;
 	this.kidsvillage = undefined;
 	this.children = [];
 }

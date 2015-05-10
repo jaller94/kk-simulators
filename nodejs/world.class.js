@@ -86,7 +86,7 @@ c.prototype.act = function() {
 		if (village.population == 84) {
 			// kids complete
 			var destination = this.villages[village.kidsvillage];
-			destination.anchestors = village;
+			destination.ancestors = village;
 			village.children.push(destination);
 			
 			// kids need time to walk to their village

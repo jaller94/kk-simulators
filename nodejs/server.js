@@ -21,6 +21,13 @@ http.createServer(function (req, res) {
 		html_listall(res);
 		html_footer(res);
 
+	// overview - table
+	} else if (req.url=="/table/") {
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		html_header(res, "Table | KK Directory");
+		html_listall_table(res);
+		html_footer(res);
+
 	// specific village
 	} else if(url_village.exec(req.url)) {
 		var index = /\d+/.exec(req.url);
@@ -29,6 +36,12 @@ http.createServer(function (req, res) {
 		res.write('<h1>Village '+index+'</h1><a href="/">to root</a><br>');
 		html_village(res, index);
 		html_footer(res);
+
+	} else if(req.url=="/style.css") {
+		res.writeHead(200, {'Content-Type': 'text/css'});
+		res.write('table {border-collapse: collapse;} ');
+		res.write('thead {background-color: lightgray;} ');
+		res.end('td {border: solid 1px gray;}');
 
 	// unkown - 404
 	} else {
@@ -42,7 +55,8 @@ http.createServer(function (req, res) {
 
 function html_header(res, title) {
 	res.write('<!DOCTYPE html><html>');
-	res.write('<head><title>'+title+'</title></head>');
+	res.write('<head><title>'+title+'</title>');
+	res.write('<link rel="stylesheet" type="text/css" href="/style.css"></head>');
 	res.write('<body>');
 }
 
@@ -54,6 +68,33 @@ function html_listall(res) {
 	for (var i = 0; i < world.villagecount; i++) {
 		res.write('<a href="/village/'+i+'/">Village '+i+'</a><br>');
 	};
+}
+
+function td_NaN(res) {
+	res.write('<td>NaN</td>')
+}
+
+function html_listall_table(res) {
+	res.write('<table><thead><tr><td>Village</td><td>Children#</td>'+
+		'<td>Ancestors</td><td>Hatching start</td><td>Kidswalk distance</td>'+
+		'</tr></thead><tbody>');
+	for (var i = 0; i < world.villagecount; i++) {
+		var village = world.villages[i];
+		res.write('<tr>');
+		res.write('<td><a href="/village/'+i+'/">'+i+'</a></td>');
+		try {res.write('<td>'+village.children.length+'</td>');}
+		catch(e) {td_NaN(res);}
+		try {
+			var id = village.ancestors.id;
+			res.write('<td><a href="/village/'+id+'/">'+id+'</a></td>');}
+		catch(e) {td_NaN(res);}
+		try {res.write('<td>'+village.kidswalk.starttick+'</td>');}
+		catch(e) {td_NaN(res);}
+		try {res.write('<td>'+village.kidswalk.totaldistance.toFixed(2)+'</td>');}
+		catch(e) {td_NaN(res);}
+		res.write('</tr>');
+	};
+	res.write('</tbody></table>');
 }
 
 function html_village(res, id) {
