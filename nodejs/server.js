@@ -17,14 +17,14 @@ http.createServer(function (req, res) {
 	// overview - list
 	if (req.url=="/") {
 		res.writeHead(200, {'Content-Type': 'text/html'});
-		html_header(res, "KK Directory");
+		html_header(res, 'KK Directory');
 		html_listall(res);
 		html_footer(res);
 
 	// overview - table
 	} else if (req.url=="/table/") {
 		res.writeHead(200, {'Content-Type': 'text/html'});
-		html_header(res, "Table | KK Directory");
+		html_header(res, 'Table | KK Directory');
 		html_listall_table(res);
 		html_footer(res);
 
@@ -46,7 +46,7 @@ http.createServer(function (req, res) {
 	// unkown - 404
 	} else {
 		res.writeHead(404, {'Content-Type': 'text/html'});
-		html_header(res, "404 Not found | KK Directory");
+		html_header(res, '404 Not found | KK Directory');
 		res.write('<h1>404 Not found</h1><a href="/">to root</a>');
 		html_footer(res);
 	}
@@ -97,9 +97,27 @@ function html_listall_table(res) {
 	res.write('</tbody></table>');
 }
 
+function html_list_children(res, village) {
+	res.write('children:<ol>');
+	village.children.forEach(function(child) {
+		this.write('<li><a href="/village/'+child.id+'/">Village '+child.id+'</a></li>');
+	}, res);
+	res.write('</ol>');
+}
+
 function html_village(res, id) {
 	try {
 		var village = world.villages[id];
+
+		try {
+			var id = village.ancestors.id;
+			res.write('ancestors: <a href="/village/'+id+'/">Village '+id+'</a><br>');
+		} catch(e) {
+			res.write('no ancestors<br>');
+		}
+
+		html_list_children(res, village);
+
 		res.write('<pre>');
 		res.write(util.inspect(village));
 		res.write('</pre>');
