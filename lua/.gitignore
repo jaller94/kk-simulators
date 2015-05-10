@@ -1,5 +1,6 @@
 pngs/*
 svgs/*
 logs/*
-archive
-tmp.png
+*.log
+tmp*
+out*
