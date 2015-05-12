@@ -41,6 +41,8 @@ http.createServer(function (req, res) {
 		res.writeHead(200, {'Content-Type': 'text/css'});
 		res.write('table {border-collapse: collapse;} ');
 		res.write('thead {background-color: lightgray;} ');
+		res.write('ol,pre {margin: 0em;} ');
+		res.write('pre {background-color: lightgray;} ');
 		res.end('td {border: solid 1px gray;}');
 
 	// unkown - 404
@@ -98,7 +100,7 @@ function html_listall_table(res) {
 }
 
 function html_list_children(res, village) {
-	res.write('children:<ol>');
+	res.write('<strong>children:</strong><ol>');
 	village.children.forEach(function(child) {
 		this.write('<li><a href="/village/'+child.id+'/">Village '+child.id+'</a></li>');
 	}, res);
@@ -109,16 +111,19 @@ function html_village(res, id) {
 	try {
 		var village = world.villages[id];
 
+		res.write('<strong>x:</strong> '+village.x.toFixed(2)+'m<br>');
+		res.write('<strong>y:</strong> '+village.y.toFixed(2)+'m<br>');
 		try {
 			var id = village.ancestors.id;
-			res.write('ancestors: <a href="/village/'+id+'/">Village '+id+'</a><br>');
+			res.write('<strong>ancestors:</strong>'+
+				'<a href="/village/'+id+'/">Village '+id+'</a><br>');
 		} catch(e) {
 			res.write('no ancestors<br>');
 		}
 
 		html_list_children(res, village);
 
-		res.write('<pre>');
+		res.write('<br><strong>raw data:</strong><pre>');
 		res.write(util.inspect(village));
 		res.write('</pre>');
 	} catch(exception) {
