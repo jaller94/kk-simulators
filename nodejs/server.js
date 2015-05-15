@@ -115,7 +115,7 @@ function html_village(res, id) {
 		res.write('<strong>y:</strong> '+village.y.toFixed(2)+'m<br>');
 		try {
 			var id = village.ancestors.id;
-			res.write('<strong>ancestors:</strong>'+
+			res.write('<strong>ancestors:</strong> '+
 				'<a href="/village/'+id+'/">Village '+id+'</a><br>');
 		} catch(e) {
 			res.write('no ancestors<br>');
