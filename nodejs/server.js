@@ -1,14 +1,18 @@
+var fs = require('fs');
 var http = require('http');
 var util = require('util');
+
+// load config
+var settings = require('./loadconf');
 
 // gen world
 var World = require("./world.class");
 
 var world = new World();
 
-for (var i = 1; i <= 625; i++) {
-	world.act(world, i);
-}
+//for (var i = 1; i <= 625; i++) {
+//	world.act(world, i);
+//}
 
 
 var url_village = /\/village\/\d+/
