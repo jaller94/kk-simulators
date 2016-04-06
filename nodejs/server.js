@@ -10,23 +10,23 @@ var World = require("./world.class");
 
 var world = new World();
 
-//for (var i = 1; i <= 625; i++) {
-//	world.act(world, i);
-//}
+for (var i = 1; i <= 625; i++) {
+	world.act(world, i);
+}
 
 
 var url_village = /\/village\/\d+/
 
 http.createServer(function (req, res) {
 	// overview - list
-	if (req.url=="/") {
+	if (req.url=='/') {
 		res.writeHead(200, {'Content-Type': 'text/html'});
 		html_header(res, 'KK Directory');
 		html_listall(res);
 		html_footer(res);
 
 	// overview - table
-	} else if (req.url=="/table/") {
+	} else if (req.url=='/table/') {
 		res.writeHead(200, {'Content-Type': 'text/html'});
 		html_header(res, 'Table | KK Directory');
 		html_listall_table(res);
@@ -41,7 +41,7 @@ http.createServer(function (req, res) {
 		html_village(res, index);
 		html_footer(res);
 
-	} else if(req.url=="/style.css") {
+	} else if(req.url=='/style.css') {
 		res.writeHead(200, {'Content-Type': 'text/css'});
 		res.write('table {border-collapse: collapse;} ');
 		res.write('thead {background-color: lightgray;} ');
@@ -57,7 +57,7 @@ http.createServer(function (req, res) {
 		html_footer(res);
 	}
 	res.end();
-}).listen(8080);
+}).listen(settings['port']);
 
 function html_header(res, title) {
 	res.write('<!DOCTYPE html><html>');
